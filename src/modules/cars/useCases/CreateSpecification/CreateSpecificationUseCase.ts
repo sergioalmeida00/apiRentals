@@ -1,28 +1,30 @@
-import { SpecificationRepository } from "../../repositories/implementations/SpecificationRepository";
-
+import { inject, injectable } from "tsyringe";
+import { ISpecificationRepository } from "@modules/cars/repositories/ISpecificationReposytory";
+import { AppError } from "@shared/erros/AppError";
 
 interface SpecificationUseCase{
     name_specification: string;
     description_specification:string;
 }
 
+@injectable()
 export class CreateSpecificationUseCase{
 
-    private specificationsRepository: SpecificationRepository;
+    private specificationsRepository: ISpecificationRepository;
 
-    constructor(specificationsRepository:SpecificationRepository){
+    constructor(@inject("SpecificationRepository") specificationsRepository:ISpecificationRepository){
         this.specificationsRepository = specificationsRepository;
     }
     
-    execute({name_specification,description_specification}:SpecificationUseCase){
+    async execute({name_specification,description_specification}:SpecificationUseCase){
 
-        const specificationAlreadyExists = this.specificationsRepository.findBySpecification(name_specification);
+        const specificationAlreadyExists =await this.specificationsRepository.findBySpecification(name_specification);
         
         if(specificationAlreadyExists){
-            throw new Error("Specification already exists!!");
+            throw new AppError("Specification already exists");
         }
 
-       const resultSpecification = this.specificationsRepository.create({name_specification,description_specification});
+       const resultSpecification = await this.specificationsRepository.create({name_specification,description_specification});
 
        return resultSpecification;
        

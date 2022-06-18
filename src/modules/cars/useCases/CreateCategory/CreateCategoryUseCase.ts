@@ -1,25 +1,26 @@
-import { CategoriesRepository } from "../../repositories/implementations/CategoriesRepository";
+import { inject,injectable } from "tsyringe";
+import { ICategoriesRepository } from "@modules/cars/repositories/ICategoriesRepository";
+import { AppError } from "@shared/erros/AppError";
 
-CategoriesRepository
+
 
 interface CategoryUseCase{
     name:string;
     description:string;
 }
+
+@injectable()
 export class CreateCategoryUseCase{
 
-    private categoriesRepository:CategoriesRepository;
 
-    constructor(categoriesRepository:CategoriesRepository){
-        this.categoriesRepository = categoriesRepository;
-    }
+    constructor(@inject("CategoriesRepository") private categoriesRepository:ICategoriesRepository){}
     
-    execute({name, description} :CategoryUseCase ){
+    async execute({name, description} :CategoryUseCase ){
 
-        const categoryAlreadyExists = this.categoriesRepository.findByCategory(name);
+        const categoryAlreadyExists = await this.categoriesRepository.findByCategory(name);
 
         if(categoryAlreadyExists){
-            throw new Error("Category already exists!!");
+            throw new AppError("Category already exists!!");
         }
     
         const resultCategory = this.categoriesRepository.create({name, description});
