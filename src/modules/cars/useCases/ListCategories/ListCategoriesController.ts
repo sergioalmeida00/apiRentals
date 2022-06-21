@@ -10,6 +10,6 @@ export class ListCategoriesController{
         const listCategorisUseCase = container.resolve(ListCategoriesUseCase);
         const listAll = await listCategorisUseCase.execute();       
 
-        return response.status(201).json({listAll});
+        return response.status(201).json(listAll);
     }
 }
