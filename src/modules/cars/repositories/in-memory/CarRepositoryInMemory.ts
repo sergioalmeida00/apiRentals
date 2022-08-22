@@ -6,6 +6,7 @@ import { ICarRepository } from "../ICarRepository";
 
 export class CarRepositoryInMemory implements ICarRepository{
 
+
     cars:Car[] =[];
 
     async create({name,description, daily_rate, license_plate, fine_amount,brand,category_id, specifications,id}: ICreateDTO): Promise<Car> {
@@ -38,5 +39,10 @@ export class CarRepositoryInMemory implements ICarRepository{
     async findById(id: string): Promise<Car> {
         const car = this.cars.find((car) => car.id === id);
         return car;
+    }
+
+    async updateAvailable(id: string, available: boolean): Promise<void> {
+        const indexOf = this.cars.findIndex(car => car.id === id );
+        this.cars[indexOf].available = available;        
     }
 }
