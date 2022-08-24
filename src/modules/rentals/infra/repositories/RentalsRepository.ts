@@ -40,4 +40,11 @@ export class RentalsRepository implements IRentalsRepository{
         return rental;
     }
 
+    async findUser(user_id: string): Promise<Rental[]> {
+        const rentalsUser = await this.repository.find({
+            where:{user_id},
+            relations:["car"]
+        });
+        return rentalsUser;
+    }
 }

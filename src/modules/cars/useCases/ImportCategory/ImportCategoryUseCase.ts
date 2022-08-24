@@ -1,4 +1,3 @@
-
 import fs from 'fs';
 import { parse } from 'csv-parse';
 import { CategoriesRepository } from '@modules/cars/infra/repositories/CategoriesRepository';

@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Rental } from '@modules/rentals/infra/entities/Rental';
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
 import {v4 as uuidV4} from 'uuid';
 import { Category } from './Category';
 import { Specification } from './Specification';
@@ -8,6 +9,9 @@ export class Car {
 
     @PrimaryColumn()
     id:string;
+
+    @OneToMany(() => Rental, (rental) => rental.car)
+    rentals:Rental
 
     @Column()
     name:string;
