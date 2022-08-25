@@ -11,12 +11,12 @@ export class CarRepositoryInMemory implements ICarRepository{
 
     async create({name,description, daily_rate, license_plate, fine_amount,brand,category_id, specifications,id}: ICreateDTO): Promise<Car> {
         const car = new Car();
+        
         Object.assign(car, {
             name,description, daily_rate, license_plate, fine_amount,brand,category_id,specifications,id
         });
 
         this.cars.push(car);
-
         return car;
     }
     
@@ -42,7 +42,7 @@ export class CarRepositoryInMemory implements ICarRepository{
     }
 
     async updateAvailable(id: string, available: boolean): Promise<void> {
-        const indexOf = this.cars.findIndex(car => car.id === id );
-        this.cars[indexOf].available = available;        
-    }
+        const findIndex = this.cars.findIndex((car) => car.id === id);
+        this.cars[findIndex].available = available;
+      }
 }
