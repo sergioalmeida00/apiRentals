@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import {v4 as uuidV4} from 'uuid';
+import { UserToken } from './UserTokens';
 
 @Entity("users")
 export class User{
@@ -19,6 +20,9 @@ export class User{
 
     @Column()
         avatar:string;
+
+    @OneToMany(type => UserToken, users => User)
+    user_tokens:UserToken[]
             
     @CreateDateColumn()
         created_at:Date;

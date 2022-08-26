@@ -13,7 +13,7 @@ export class CarRepositoryInMemory implements ICarRepository{
         const car = new Car();
         
         Object.assign(car, {
-            name,description, daily_rate, license_plate, fine_amount,brand,category_id,specifications,id
+            name,description, daily_rate, license_plate, fine_amount,brand,category_id,specifications,...(id && {id})
         });
 
         this.cars.push(car);
