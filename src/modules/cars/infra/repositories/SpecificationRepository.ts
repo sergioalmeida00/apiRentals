@@ -40,9 +40,9 @@ export class SpecificationRepository implements ISpecificationRepository{
     }
 
     async listSpecification(): Promise<Specification[]>{
-       const retult = await this.repository.find();
+       const result = await this.repository.find();
 
-       return retult;
+       return result;
     }
 
     async findByIds(ids: string[]): Promise<Specification[]> {

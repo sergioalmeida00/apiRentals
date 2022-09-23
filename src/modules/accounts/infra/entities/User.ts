@@ -21,8 +21,6 @@ export class User{
     @Column()
         avatar:string;
 
-    @OneToMany(type => UserToken, users => User)
-    user_tokens:UserToken[]
             
     @CreateDateColumn()
         created_at:Date;
