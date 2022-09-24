@@ -4,7 +4,8 @@ import { IDateProvider } from "@shared/container/providers/DateProvider/IDatePro
 import { IMailProvider } from "@shared/container/providers/MailProvider/IMailProvider";
 import { AppError } from "@shared/erros/AppError";
 import { inject, injectable } from "tsyringe";
-import { v4 as uuidV4 } from 'uuid'
+import { v4 as uuidV4 } from 'uuid';
+import  path from 'path';
 
 @injectable()
 export class SendForgotPasswordMailUseCase {
@@ -21,6 +22,7 @@ export class SendForgotPasswordMailUseCase {
 
     async execute(email:string){
         const user = await this.userRepository.findByEmail(email);
+        const templatePath = path.resolve(__dirname,'..','..','views','Emails','forgotPassword.hbs');
 
         if(!user){
             throw new AppError("Email is not exists!", 404);            
@@ -28,14 +30,20 @@ export class SendForgotPasswordMailUseCase {
 
         const token = uuidV4();
         const expires_date = this.dayJsDateProvider.addHours(3);
-        
+           
         await this.usersTokensRepository.create({
             refresh_token:token,
             user_id: user.id,
             expires_date
         });
 
-        await this.mailProvider.sendMail(email, "Recupeção de Senha", `O link para o reset é ${token}`);
+        const variables = {
+            name: user.name,
+            email:user.email,
+            link:`http://localhost:3333/password/reset?token=${token}`
+        }
+
+        await this.mailProvider.sendMail(email, "Recupeção de Senha", variables, templatePath);
 
     }
 }
