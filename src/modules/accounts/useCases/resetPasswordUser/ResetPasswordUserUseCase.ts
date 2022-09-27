@@ -20,7 +20,7 @@ export class ResetPasswordUserUseCase {
         @inject("UserRepository")
         private userRepository:IUserRepository
     ){}
-    async execute({token, password}:IRequest){
+    async execute({token, password}:IRequest):Promise<void>{
         const userToken = await this.userTokenRepository.findByToken(token); 
 
         if(!userToken){

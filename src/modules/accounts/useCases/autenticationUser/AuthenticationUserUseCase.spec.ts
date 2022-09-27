@@ -3,16 +3,27 @@ import { ICreateUserDto } from "@modules/accounts/dtos/ICreateUserDTO";
 import { UserRepositoryInMemory } from "@modules/accounts/repositories/in-memory/UserRepositoryInMemory"
 import { CreateUserUseCase } from "@modules/accounts/useCases/createUser/CreateUserUseCase";
 import { AutenticationUserUseCase } from "./AutenticationUserUseCase";
+import { UsersTokensRepositoryInMemory } from "@modules/accounts/repositories/in-memory/UsersTokensRepositoryInMemory";
+import { DayjsDateProvider } from "@shared/container/providers/DateProvider/implementations/DayjsDateProvider";
+
 
 let usersReposytoryInMemory: UserRepositoryInMemory;
 let autenticationUserUseCase: AutenticationUserUseCase;
 let createUserUseCase: CreateUserUseCase;
+let usersTokensRepositoryInMemory: UsersTokensRepositoryInMemory;
+let dayjsDateProvider:DayjsDateProvider;
 
 describe("Authentication User",()=>{
 
     beforeEach(()=>{
+        usersTokensRepositoryInMemory = new UsersTokensRepositoryInMemory();
+        dayjsDateProvider = new DayjsDateProvider();
         usersReposytoryInMemory = new UserRepositoryInMemory();
-        autenticationUserUseCase = new AutenticationUserUseCase(usersReposytoryInMemory);
+        autenticationUserUseCase = new AutenticationUserUseCase(
+            usersReposytoryInMemory,
+            usersTokensRepositoryInMemory,
+            dayjsDateProvider
+            );
         createUserUseCase = new CreateUserUseCase(usersReposytoryInMemory);
     });
 
@@ -30,6 +41,8 @@ describe("Authentication User",()=>{
             email:user.email,
             password:user.password
         });
+
+        
         expect(resultToken).toHaveProperty("token");
     });
 
