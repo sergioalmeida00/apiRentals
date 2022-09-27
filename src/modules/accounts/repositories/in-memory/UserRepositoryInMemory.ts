@@ -5,13 +5,13 @@ import { IUserRepository } from "../IUserRepository";
 export class UserRepositoryInMemory implements IUserRepository{
     users:User[] = [];
 
-    async create({driver_license,email,name,password}: ICreateUserDto): Promise<void> {
+    async create({driver_license,email,name,password}: ICreateUserDto): Promise<User> {
         const user = new User();
         Object.assign(user,{
             driver_license,email,name,password
         });
-
         this.users.push(user)
+        return user;
     }
     async findByEmail(email: string): Promise<User> {
         const user = this.users.find(user => user.email === email);

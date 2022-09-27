@@ -16,7 +16,7 @@ let dayjsDateProvider:DayjsDateProvider;
 describe("Authentication User",()=>{
 
     beforeEach(()=>{
-        usersTokensRepositoryInMemory = new UsersTokensRepositoryInMemory();
+        usersTokensRepositoryInMemory = new UsersTokensRepositoryInMemory()
         dayjsDateProvider = new DayjsDateProvider();
         usersReposytoryInMemory = new UserRepositoryInMemory();
         autenticationUserUseCase = new AutenticationUserUseCase(
