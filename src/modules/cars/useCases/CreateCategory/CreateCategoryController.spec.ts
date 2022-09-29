@@ -33,7 +33,7 @@ describe("Create Category Controller", ()=>{
             email:"admin@rentex.com.br",
             password:"admin"
         });
-        const {refresh_token} = responseToken.body;
+        const {token} = responseToken.body;
 
        const response = await request(app).post("/categories")
        .send({
@@ -41,7 +41,7 @@ describe("Create Category Controller", ()=>{
             description:"Categorias de Carros SUV"
        })
        .set({
-            Authorization:`Bearer ${refresh_token}`
+            Authorization:`Bearer ${token}`
        });
 
        expect(response.status).toBe(201);

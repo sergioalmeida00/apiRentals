@@ -20,18 +20,11 @@ export async function esureAuthenticated(request:Request, response:Response, nex
     try {
         const {sub: user_id} = verify(
             token, 
-            auth.secret_refresh_token
+            auth.secret_token
             ) as IPlayload ;
 
         // const userRepository = new UserRepository();
-        const userTokensRepository = new UsersTokensRepository();
-        
-
-        const userAlReadyExist = await userTokensRepository.findByUserIdAndRefreshToken(user_id, token);
-
-        if(!userAlReadyExist){
-            throw new AppError("User does not exists!")
-        }
+    
 
         //PASSANDO O ID DO USER PARA QUE POSSA SER UTILIZADO NO CONTROLLER, PARA ISSO É PRECISO SOBRESCREVER A TIPAGEM DA BIBLIOTECA UTILIZADA, NESTE CASO O EXPRESS
         request.user = {
