@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.routesSpecification = void 0;
+const express_1 = require("express");
+const CreateSpecificationController_1 = require("@modules/cars/useCases/CreateSpecification/CreateSpecificationController");
+const ListSpecificationController_1 = require("@modules/cars/useCases/ListSpecifications/ListSpecificationController");
+const ensureAuthenticated_1 = require("@shared/infra/http/middlewares/ensureAuthenticated");
+const ensureAdmin_1 = require("@shared/infra/http/middlewares/ensureAdmin");
+const routesSpecification = (0, express_1.Router)();
+exports.routesSpecification = routesSpecification;
+const createSpecificationController = new CreateSpecificationController_1.CreateSpecificationController();
+const listSpecificationController = new ListSpecificationController_1.ListSpecificationController();
+// routesSpecification.use(esureAuthenticated);
+routesSpecification.post("/", ensureAuthenticated_1.esureAuthenticated, ensureAdmin_1.ensureAdmin, createSpecificationController.handle);
+routesSpecification.get("/", listSpecificationController.handle);
